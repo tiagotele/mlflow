@@ -1,50 +1,54 @@
-# MLflow Development Container
+# MLflow development container (experimental)
 
-This directory contains a set of files to automatically build a development environment for MLflow on Visual Studio Code using [the Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
+This directory contains a set of files to set up a reproducible development environment for MLflow in Visual Studio Code using the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers).
 
-## Supported Features
+## Supported features
 
-- Pre-installed development tools.
-- Auto formatting and lint check for Python code.
-- Auto formatting and lint check for JavaScript code.
-- Pre-commit hook to prevent pushing commits that won't pass the CI checks.
-- Useful Visual Studio Code extensions to increase productivity.
+- Pre-installed tools/packages required for MLflow development.
+- Pre-configured VSCode settings and extensions for automatic code formatting and lint check.
+- Git hooks to prevent pushing commits that won't pass the CI checks.
 
 ## Prerequisites
 
-- Visual Studio Code
-- The Remote - Containers extension
-- Docker
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Docker](https://www.docker.com/)
 
-See [Remote development in Containers](https://code.visualstudio.com/docs/remote/containers-tutorial) for more information.
+## Getting started
 
-## Getting Started
+1. Build the devcontainer image.
 
-1. Open the repository in Visual Studio Code.
-2. Open [the command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette) and select `Remote-Containers: Reopen in Container`.
-3. Once the devcontainer is built and running, run the following commands to ensure the development environment is set up properly:
+   ```bash
+   # This may take a while
+   DOCKER_BUILDKIT=1 docker build -f .devcontainer/Dockerfile.devcontainer -t ghcr.io/mlflow/mlflow-devcontainer .
+
+   # Alternatively, you can pull the pre-built image from GitHub Container Registry,
+   # but this requires a personal access token to authenticate to ghcr.io:
+   echo <GITHUB_TOKEN> | docker login ghcr.io -u <GITHUB_USERNAME> --password-stdin
+   docker pull ghcr.io/mlflow/mlflow-devcontainer
+   ```
+
+2. Open the MLflow repository in VSCode.
+3. Press `Ctrl/Cmd+Shift+P` to launch [the command palette](https://code.visualstudio.com/docs/getstarted/userinterface#_command-palette)
+4. Select `Remote-Containers: Reopen in Container`.
+5. Once the devcontainer is up and running, launch the command palette again.
+6. Select `Terminal: Create New Terminal`.
+7. Run the following commands and make sure they run successfully:
 
 ```bash
 python examples/sklearn_autolog/linear_regression.py
 pytest tests/test_version.py
-./dev/run-dev-server
 ```
 
-See [Developing inside a Container](https://code.visualstudio.com/docs/remote/containers) for more information.
+## Developing in GitHub Codespaces
 
-## Developing in a GitHub Codespaces
+You can create the same development environment as your local devcontainer **in a web browser with just a few clicks** using [GitHub Codespaces](https://github.com/features/codespaces). The instructions in [Creating a codespace](https://docs.github.com/en/codespaces/developing-in-codespaces/creating-a-codespace#creating-a-codespace) cover how to set up a codespace with the devcontainer configuration file in the repository. Note that GitHub Codespaces is only available for organizations using GitHub Team or GitHub Enterprise Cloud or individual users on GitHub Free and GitHub Pro plans who signed up for the beta release.
 
-You can also launch the devcontainer using [GitHub Codespaces](https://github.com/features/codespaces). See [Developing in codespaces](https://docs.github.com/en/codespaces/developing-in-codespaces) for more information.
-
-## Rebuild devcontainer
-
-1. Run `docker pull ghcr.io/mlflow/mlflow-devcontainer`.
-2. Open the command palette and run `Remote-Containers: Rebuild Container`.
+<img src="./images/codespace.png" width="50%">
 
 ## Limitations
 
-The devcontainer image doesn't contain extra ML packages such as `tensorflow` to reduce the image size, but they can be installed after launching the devcontainer:
+The following packages/languages are NOT pre-installed to build the image faster. You can manually install them after launching the devcontainer if necessary.
 
-```
-pip install tensorflow
-```
+- Python ML packages such as `tensorflow`
+- R
