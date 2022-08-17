@@ -63,4 +63,4 @@ RUN conda run -n ${DEV_ENVIRONMENT_NAME} pip install \
 
 # Install js dependencies
 COPY mlflow/server/js ./mlflow/server/js
-RUN cd mlflow/server/js && yarn install
+RUN cd mlflow/server/js && yarn install --silent
