@@ -873,7 +873,7 @@ class TrainStep(BaseStep):
             step_config["custom_metrics"] = recipe_config["custom_metrics"]
         if recipe_config.get("primary_metric") is not None:
             step_config["primary_metric"] = recipe_config["primary_metric"]
-        step_config["template_name"] = recipe_config.get("template")
+        step_config["template_name"] = recipe_config.get("recipe")
         step_config["profile"] = recipe_config.get("profile")
         step_config["target_col"] = recipe_config.get("target_col")
         if "positive_class" in recipe_config:

@@ -53,10 +53,7 @@ class _BaseRecipe:
         # from config files using self._resolve_recipe_steps() at the beginning of __init__(),
         # run(), and inspect(), and should not reload it elsewhere.
         self._steps = self._resolve_recipe_steps()
-        self._template = get_recipe_config(self._recipe_root_path, self._profile).get(
-            # TODO: Think about renaming this to something else
-            "template"
-        )
+        self._template = get_recipe_config(self._recipe_root_path, self._profile).get("recipe")
 
     @experimental
     @property
@@ -428,11 +425,11 @@ class Recipe:
             ) from None
 
         recipe_config = get_recipe_config(recipe_root_path=recipe_root_path, profile=profile)
-        template = recipe_config.get("template")
+        template = recipe_config.get("recipe")
         if template is None:
             raise MlflowException(
-                "The `template` property needs to be defined in the `recipe.yaml` file."
-                "For example: `template: regression/v1`",
+                "The `recipe` property needs to be defined in the `recipe.yaml` file."
+                "For example: `recipe: regression/v1`",
                 error_code=INVALID_PARAMETER_VALUE,
             ) from None
         template_path = template.replace("/", ".").replace("@", ".")

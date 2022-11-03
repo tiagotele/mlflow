@@ -168,7 +168,7 @@ class RegisterStep(BaseStep):
         step_config = {}
         if recipe_config.get("steps", {}).get("register") is not None:
             step_config.update(recipe_config.get("steps", {}).get("register"))
-        step_config["template_name"] = recipe_config.get("template")
+        step_config["template_name"] = recipe_config.get("recipe")
         if recipe_config.get("model_registry", {}).get("registry_uri") is not None:
             step_config["registry_uri"] = recipe_config.get("model_registry", {}).get(
                 "registry_uri"
